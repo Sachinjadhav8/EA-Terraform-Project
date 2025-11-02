@@ -7,7 +7,7 @@ terraform {
   }
 
   cloud {
-    organization = "jadhavsachinn01-org"  # your Terraform Cloud org name
+    organization = "EA-ORG"  # your Terraform Cloud org name
 
     workspaces {
       name = "energyA"  # your workspace name
