@@ -20,7 +20,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "example" {
-  bucket = "energya-terraform-demo-bucketxxx101"
+  bucket = "energya-terraform-demo-bucketxxx1012"
   tags = {
     Name = "EnergyA Demo"
   }
