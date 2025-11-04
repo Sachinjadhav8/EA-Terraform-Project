@@ -8,11 +8,11 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket         = "mycompany-terraform-state"
-    key            = "vpc/terraform.tfstate"
-    region         = "ap-southeast-2"
-    dynamodb_table = "terraform-locks"
-    encrypt        = true
+  backend "remote" {
+    organization = "EA-ORG"   # Replace with your actual Terraform Cloud organization name
+
+    workspaces {
+      name = "EA-Terraform-Project"               # Replace with your Terraform Cloud workspace name
+    }
   }
 }
