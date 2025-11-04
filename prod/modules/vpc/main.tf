@@ -1,6 +1,4 @@
-# -----------------------------
 # VPC
-# -----------------------------
 resource "aws_vpc" "this" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true
@@ -12,9 +10,7 @@ resource "aws_vpc" "this" {
   }
 }
 
-# -----------------------------
 # Internet Gateway
-# -----------------------------
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
 
@@ -24,9 +20,7 @@ resource "aws_internet_gateway" "this" {
   }
 }
 
-# -----------------------------
 # Public Subnets
-# -----------------------------
 resource "aws_subnet" "public" {
   count                   = length(var.public_subnet_cidrs)
   vpc_id                  = aws_vpc.this.id
@@ -40,9 +34,7 @@ resource "aws_subnet" "public" {
   }
 }
 
-# -----------------------------
 # Private Subnets
-# -----------------------------
 resource "aws_subnet" "private" {
   count             = length(var.private_subnet_cidrs)
   vpc_id            = aws_vpc.this.id
@@ -55,9 +47,7 @@ resource "aws_subnet" "private" {
   }
 }
 
-# -----------------------------
-# Public Route Table & Routes
-# -----------------------------
+# Public Route Table + Route + Associations
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.this.id
 
@@ -79,9 +69,9 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
-# -----------------------------
-# NAT Gateway (Conditional)
-# -----------------------------
+# -------------------------
+# NAT Gateway & EIP (conditional)
+# -------------------------
 resource "aws_eip" "nat" {
   count  = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : length(var.azs)) : 0
   domain = "vpc"
@@ -91,6 +81,7 @@ resource "aws_nat_gateway" "this" {
   count = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : length(var.azs)) : 0
 
   allocation_id = aws_eip.nat[count.index].id
+  # pick public subnet for NAT placement; if single NAT then use first public subnet else one per AZ
   subnet_id     = element(aws_subnet.public[*].id, count.index)
 
   tags = {
@@ -99,9 +90,10 @@ resource "aws_nat_gateway" "this" {
   }
 }
 
-# -----------------------------
-# Private Route Tables
-# -----------------------------
+# -------------------------
+# Private Route Tables & Routes & Associations
+# create one private RT per private subnet (keeps mapping simple)
+# -------------------------
 resource "aws_route_table" "private" {
   count  = length(var.private_subnet_cidrs)
   vpc_id = aws_vpc.this.id

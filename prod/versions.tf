@@ -8,11 +8,20 @@ terraform {
     }
   }
 
-  backend "remote" {
-    organization = "EA-ORG"   # Replace with your actual Terraform Cloud organization name
-
+  # Option A: Terraform Cloud backend (uncomment and set values for your org/workspace)
+  cloud {
+    organization = "EA-ORG"   # <-- replace with your Terraform Cloud org name
     workspaces {
-      name = "EA-Terraform-Project"               # Replace with your Terraform Cloud workspace name
+      name = "EA-Terraform-Project-prod"  # <-- workspace name in Terraform Cloud
     }
   }
+
+  # Option B: S3 backend (comment out cloud{} above if you use S3)
+  # backend "s3" {
+  #   bucket         = "mycompany-terraform-state"
+  #   key            = "prod/vpc/terraform.tfstate"
+  #   region         = "ap-southeast-2"
+  #   dynamodb_table = "terraform-locks"
+  #   encrypt        = true
+  # }
 }

@@ -41,6 +41,6 @@ variable "enable_nat_gateway" {
 
 variable "single_nat_gateway" {
   type        = bool
-  description = "Whether to create a single NAT Gateway for all private subnets"
+  description = "If true create a single NAT Gateway; if false create one NAT per AZ"
   default     = true
 }
