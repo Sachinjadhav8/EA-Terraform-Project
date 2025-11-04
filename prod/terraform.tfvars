@@ -1,0 +1,9 @@
+region              = "ap-southeast-2"
+environment         = "prod"
+vpc_name            = "energy-prod-vpc"
+vpc_cidr            = "10.1.0.0/16"
+azs                 = ["ap-southeast-2a", "ap-southeast-2b"]
+public_subnet_cidrs  = ["10.1.1.0/24", "10.1.2.0/24"]
+private_subnet_cidrs = ["10.1.3.0/24", "10.1.4.0/24"]
+enable_nat_gateway   = true
+single_nat_gateway   = true
