@@ -15,3 +15,8 @@ output "instance_name_ip_map" {
     "${instance.tags["Name"]} → ${coalesce(instance.public_ip, instance.private_ip)}"
   ]
 }
+
+output "instance_ids" {
+  description = "List of EC2 instance IDs"
+  value       = aws_instance.this[*].id
+}

@@ -28,7 +28,7 @@ module "ec2" {
 
 module "public_ec2" {
   source              = "./modules/ec2"
-  instance_count      = 3
+  instance_count      = 2
   subnet_ids          = module.vpc.public_subnets
   ami_id              = data.aws_ssm_parameter.amazon_linux.value
   instance_type       = var.instance_type
@@ -42,7 +42,7 @@ module "public_ec2" {
 
 module "private_ec2" {
   source              = "./modules/ec2"
-  instance_count      = 3
+  instance_count      = 2
   subnet_ids          = module.vpc.private_subnets
   ami_id              = data.aws_ssm_parameter.amazon_linux.value
   instance_type       = var.instance_type
@@ -79,3 +79,26 @@ module "ec2_sg" {
     }
   ]
 }
+
+# Public Load Balancer (Internet-facing)
+module "public_alb" {
+  source          = "./modules/load_balancer"
+  vpc_id          = module.vpc.vpc_id
+  security_group_id   = module.ec2_sg.security_group_id
+  public_subnets  = module.vpc.public_subnets
+  private_subnets = module.vpc.private_subnets
+  instance_ids    = module.public_ec2.instance_ids
+  is_public       = true
+}
+
+# Private Load Balancer (Internal)
+module "internal_alb" {
+  source          = "./modules/load_balancer"
+  vpc_id          = module.vpc.vpc_id
+  security_group_id   = module.ec2_sg.security_group_id
+  public_subnets  = module.vpc.public_subnets
+  private_subnets = module.vpc.private_subnets
+  instance_ids    = module.private_ec2.instance_ids
+  is_public       = false
+}
+
