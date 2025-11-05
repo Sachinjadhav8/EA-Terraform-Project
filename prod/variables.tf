@@ -44,3 +44,19 @@ variable "single_nat_gateway" {
   description = "If true create a single NAT Gateway; if false create one NAT per AZ"
   default     = true
 }
+
+
+variable "instance_type" {
+  type        = string
+  description = "EC2 instance type"
+}
+
+variable "key_name" {
+  type        = string
+  description = "Key pair name"
+}
+
+variable "instance_count" {
+  type = number
+  description = "Number of EC2 instances to create"
+}

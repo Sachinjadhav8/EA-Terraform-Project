@@ -7,3 +7,7 @@ public_subnet_cidrs  = ["10.1.1.0/24", "10.1.2.0/24"]
 private_subnet_cidrs = ["10.1.3.0/24", "10.1.4.0/24"]
 enable_nat_gateway   = false
 single_nat_gateway   = true
+# ami_id         = "ami-0abcdef1234567890" # Use your region’s Amazon Linux 2 or Ubuntu AMI
+instance_type  = "t3.micro"
+key_name       = "energyA"
+instance_count = 3
