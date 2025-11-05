@@ -6,3 +6,5 @@ variable "security_group_id" { type = string }
 variable "key_name" { type = string }
 variable "vpc_name" { type = string }
 variable "environment" { type = string }
+variable "associate_public_ip" { type = bool }
+variable "tier" { type = string }

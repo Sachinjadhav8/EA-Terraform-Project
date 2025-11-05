@@ -11,6 +11,7 @@ module "vpc" {
   environment          = var.environment
 }
 
+/*
 module "ec2" {
   source = "./modules/ec2"
 
@@ -22,6 +23,35 @@ module "ec2" {
   instance_count    = var.instance_count
   vpc_name         = var.vpc_name
   environment      = var.environment
+}
+*/
+
+module "public_ec2" {
+  source              = "./modules/ec2"
+  instance_count      = 3
+  subnet_ids          = module.vpc.public_subnets
+  ami_id              = data.aws_ssm_parameter.amazon_linux.value
+  instance_type       = var.instance_type
+  key_name            = var.key_name
+  security_group_id   = module.ec2_sg.security_group_id
+  associate_public_ip = true
+  vpc_name         = var.vpc_name
+  environment      = var.environment
+  tier                = "public"
+}
+
+module "private_ec2" {
+  source              = "./modules/ec2"
+  instance_count      = 2
+  subnet_ids          = module.vpc.private_subnets
+  ami_id              = data.aws_ssm_parameter.amazon_linux.value
+  instance_type       = var.instance_type
+  key_name            = var.key_name
+  security_group_id   = module.ec2_sg.security_group_id
+  associate_public_ip = false
+  vpc_name         = var.vpc_name
+  environment      = var.environment
+  tier                = "private"
 }
 
 

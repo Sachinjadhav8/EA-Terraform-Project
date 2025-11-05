@@ -12,7 +12,7 @@ terraform {
   cloud {
     organization = "EA-ORG"   # <-- replace with your Terraform Cloud org name
     workspaces {
-      name = "EA-Terraform-Project-prod"  # <-- workspace name in Terraform Cloud
+      name = "EA-Terraform-Project"  # <-- workspace name in Terraform Cloud
     }
   }
 

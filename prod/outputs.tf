@@ -28,6 +28,8 @@ output "ec2_security_group_id" {
   value       = module.ec2_sg.security_group_id
 }
 
+
+/*
 output "instance_ids" {
   value = module.ec2.instance_ids
 }
@@ -35,3 +37,15 @@ output "instance_ids" {
 output "public_ips" {
   value = module.ec2.public_ips
 }
+*/
+
+output "private_ec2_name_ip_map" {
+  description = "Private EC2 instance name → IP mapping"
+  value       = module.private_ec2.instance_name_ip_map
+}
+
+output "public_ec2_name_ip_map" {
+  description = "Public EC2 instance name → IP mapping"
+  value       = module.public_ec2.instance_name_ip_map
+}
+
