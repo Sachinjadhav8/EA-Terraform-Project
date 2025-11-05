@@ -1,5 +1,5 @@
 resource "aws_lb" "this" {
-  name               = "$energyA-${var.is_public ? "public" : "internal"}"
+  name               = "energyA-${var.is_public ? "public" : "internal"}"
   load_balancer_type = "application"
 
   # Dynamically set internal/external based on is_public variable
