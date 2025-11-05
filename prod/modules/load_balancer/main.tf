@@ -1,5 +1,5 @@
 resource "aws_lb" "this" {
-  name               = "app-alb"
+  name               = "$energyA-${var.is_public ? "public" : "internal"}"
   load_balancer_type = "application"
 
   # Dynamically set internal/external based on is_public variable
@@ -11,7 +11,7 @@ resource "aws_lb" "this" {
 
 # Target Group
 resource "aws_lb_target_group" "this" {
-  name     = "app-tg"
+  name     = "energyA-${var.is_public ? "public" : "internal"}-tg"
   port     = var.target_port
   protocol = "HTTP"
   vpc_id   = var.vpc_id
