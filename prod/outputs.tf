@@ -53,3 +53,20 @@ output "ami_id" {
   description = "AMI ID from AMI module"
   value       = module.golden_ami.ami_id
 }
+
+#######################################
+# AUTOSCALING OUTPUTS
+#######################################
+output "public_asg_name" {
+  description = "Auto Scaling Group name for public instances"
+  value       = module.public_asg.asg_name
+}
+
+
+/*
+output "private_asg_name" {
+  description = "Auto Scaling Group name for private instances"
+  value       = module.private_asg.asg_name
+}
+
+*/

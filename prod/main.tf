@@ -111,3 +111,35 @@ module "golden_ami" {
   ami_name_suffix    = "app-golden-ami"
 }
 
+module "public_asg" {
+  source            = "./modules/autoscaling"
+  vpc_name          = var.vpc_name
+  environment       = var.environment
+  tier              = "public"
+  image_id          = module.golden_ami.ami_id
+  instance_type     = var.instance_type
+  key_name          = var.key_name
+  security_group_id = module.ec2_sg.security_group_id
+  target_group_arn  = module.public_alb.target_group_arn
+  public_subnets    = module.vpc.public_subnets
+  private_subnets   = module.vpc.private_subnets
+  is_public         = true
+}
+
+/*
+module "private_asg" {
+  source            = "./modules/autoscaling"
+  vpc_name          = var.vpc_name
+  environment       = var.environment
+  tier              = "private"
+  image_id          = module.golden_ami.ami_id
+  instance_type     = var.instance_type
+  key_name          = var.key_name
+  security_group_id = module.ec2_sg.security_group_id
+  target_group_arn  = module.internal_alb.target_group_arn
+  public_subnets    = module.vpc.public_subnets
+  private_subnets   = module.vpc.private_subnets
+  is_public         = false
+}
+
+*/
