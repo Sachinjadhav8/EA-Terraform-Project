@@ -8,7 +8,7 @@ resource "aws_instance" "this" {
 #  key_name          = aws_key_pair.ec2_keypair.key_name  # 👈 Comes from root
 
   vpc_security_group_ids = [var.security_group_id]
-
+/*
   # ✅ Run Apache install script only for PUBLIC instances
   user_data = var.tier == "public" ? <<-EOF
               #!/bin/bash
@@ -22,6 +22,7 @@ resource "aws_instance" "this" {
               systemctl restart httpd 
               EOF 
               : null
+*/
 
   tags = {
     Name        = "${var.vpc_name}-${var.tier}-ec2-${count.index + 1}"
