@@ -9,6 +9,20 @@ resource "aws_instance" "this" {
 
   vpc_security_group_ids = [var.security_group_id]
 
+  # ✅ Run Apache install script only for PUBLIC instances
+  user_data = var.tier == "public" ? <<-EOF
+              #!/bin/bash
+              yum update -y
+              yum install -y httpd
+              systemctl enable httpd
+              systemctl start httpd
+              echo "Healthy" > /var/www/html/index.html
+              chown apache:apache /var/www/html/index.html
+              chmod 644 /var/www/html/index.html
+              systemctl restart httpd 
+              EOF 
+              : null
+
   tags = {
     Name        = "${var.vpc_name}-${var.tier}-ec2-${count.index + 1}"
     Environment = var.environment

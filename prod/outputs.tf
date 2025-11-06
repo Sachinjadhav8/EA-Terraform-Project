@@ -49,3 +49,7 @@ output "public_ec2_name_ip_map" {
   value       = module.public_ec2.instance_name_ip_map
 }
 
+output "ami_id" {
+  description = "AMI ID from AMI module"
+  value       = module.golden_ami.ami_id
+}

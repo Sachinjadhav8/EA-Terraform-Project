@@ -28,7 +28,7 @@ module "ec2" {
 
 module "public_ec2" {
   source              = "./modules/ec2"
-  instance_count      = 1
+  instance_count      = 2
   subnet_ids          = module.vpc.public_subnets
   ami_id              = data.aws_ssm_parameter.amazon_linux.value
   instance_type       = var.instance_type
@@ -42,7 +42,7 @@ module "public_ec2" {
 
 module "private_ec2" {
   source              = "./modules/ec2"
-  instance_count      = 2
+  instance_count      = 0
   subnet_ids          = module.vpc.private_subnets
   ami_id              = data.aws_ssm_parameter.amazon_linux.value
   instance_type       = var.instance_type
@@ -100,5 +100,14 @@ module "internal_alb" {
   private_subnets = module.vpc.private_subnets
   instance_ids    = module.private_ec2.instance_ids
   is_public       = false
+}
+
+# Create AMI from existing EC2 instance
+module "golden_ami" {
+  source             = "./modules/ami"
+  vpc_name           = var.vpc_name
+  environment        = var.environment
+  source_instance_id = module.public_ec2.instance_ids[0]
+  ami_name_suffix    = "app-golden-ami"
 }
 
