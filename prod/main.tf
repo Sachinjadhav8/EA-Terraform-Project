@@ -28,7 +28,7 @@ module "ec2" {
 
 module "public_ec2" {
   source              = "./modules/ec2"
-  instance_count      = 2
+  instance_count      = 1
   subnet_ids          = module.vpc.public_subnets
   ami_id              = data.aws_ssm_parameter.amazon_linux.value
   instance_type       = var.instance_type
