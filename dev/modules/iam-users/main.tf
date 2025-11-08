@@ -46,9 +46,6 @@ resource "aws_iam_user_login_profile" "login_profiles" {
   password_reset_required = false
 
   # This lifecycle rule allows Terraform to keep the resource stable even if password changes
-  lifecycle {
-    ignore_changes = [password]
-  }
 }
 
 # =========================================================
