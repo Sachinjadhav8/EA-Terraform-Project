@@ -1,3 +1,15 @@
+module "iam_users" {
+  source      = "./modules/iam-users"
+  user_names  = var.user_names
+  env         = var.env
+  tags        = var.tags
+}
+
+
+
+/*
+
+
 module "vpc" {
   source = "./modules/vpc"
 
@@ -11,20 +23,7 @@ module "vpc" {
   environment          = var.environment
 }
 
-/*
-module "ec2" {
-  source = "./modules/ec2"
 
-  ami_id            = data.aws_ssm_parameter.amazon_linux.value
-  instance_type     = var.instance_type
-  subnet_ids        = module.vpc.public_subnets
-  security_group_id = module.ec2_sg.security_group_id
-  key_name          = var.key_name
-  instance_count    = var.instance_count
-  vpc_name         = var.vpc_name
-  environment      = var.environment
-}
-*/
 
 module "public_ec2" {
   source              = "./modules/ec2"
@@ -126,7 +125,7 @@ module "public_asg" {
   is_public         = true
 }
 
-/*
+################################################
 module "private_asg" {
   source            = "./modules/autoscaling"
   vpc_name          = var.vpc_name
@@ -141,5 +140,9 @@ module "private_asg" {
   private_subnets   = module.vpc.private_subnets
   is_public         = false
 }
+
+
+##############################################
+
 
 */
