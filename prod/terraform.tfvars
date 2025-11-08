@@ -11,18 +11,3 @@ single_nat_gateway   = true
 instance_type  = "t3.micro"
 key_name       = "energyA"
 instance_count = 3
-
-user_names = [
-  "Ram",
-  "Sham",
-  "Avi",
-  "Geeta",
-  "Mohan",
-  "Ashavini"
-]
-
-tags = {
-  ManagedBy  = "Terraform"
-  Department = "CloudOps"
-  Owner      = "AdminTeam"
-}

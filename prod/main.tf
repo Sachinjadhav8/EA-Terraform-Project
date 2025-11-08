@@ -1,13 +1,3 @@
-module "iam_users" {
-  source      = "./modules/iam-users"
-  user_names  = var.user_names
-  env         = var.env
-  tags        = var.tags
-}
-
-
-
-/*
 
 
 module "vpc" {
@@ -126,6 +116,7 @@ module "public_asg" {
 }
 
 ################################################
+/*
 module "private_asg" {
   source            = "./modules/autoscaling"
   vpc_name          = var.vpc_name
@@ -141,8 +132,5 @@ module "private_asg" {
   is_public         = false
 }
 
-
-##############################################
-
-
 */
+##############################################
