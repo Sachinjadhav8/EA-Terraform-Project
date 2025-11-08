@@ -1,25 +1,17 @@
-# =====================================
-# Get account alias OR fallback to account ID
-# =====================================
+############################################
+# IAM Users Module
+# Creates IAM users, generates passwords, 
+# and writes login info to a local file
+############################################
 
-# Get AWS account ID (always available)
+# =========================================================
+# Fetch AWS Account ID (used to build console login URL)
+# =========================================================
 data "aws_caller_identity" "current" {}
 
-# Try to read alias (some accounts don't have one)
-# Adding depends_on ensures Terraform waits until users are created (avoiding empty result)
-data "aws_iam_account_alias" "alias" {
-  depends_on = [aws_iam_user.users]
-}
-
-locals {
-  account_id = data.aws_caller_identity.current.account_id
-  alias      = try(data.aws_iam_account_alias.alias.account_alias, "")
-  login_url  = local.alias != "" ?
-    format("https://%s.signin.aws.amazon.com/console", local.alias) :
-    format("https://%s.signin.aws.amazon.com/console", local.account_id)
-}
-
-
+# =========================================================
+# Create IAM Users
+# =========================================================
 resource "aws_iam_user" "users" {
   for_each = toset(var.user_names)
   name     = each.value
@@ -27,26 +19,41 @@ resource "aws_iam_user" "users" {
   tags     = merge(var.tags, { Environment = var.env })
 }
 
-# Generate random strong passwords
-/*
-resource "random_password" "initial_passwords" {
+# =========================================================
+# Generate Secure Random Passwords
+# =========================================================
+resource "random_password" "passwords" {
   for_each = aws_iam_user.users
-  length   = 16
-  special  = true
-  min_upper   = 2
-  min_lower   = 2
-  min_numeric = 2
-  min_special = 2
+
+  length              = 16
+  special             = true
+  min_upper           = 2
+  min_lower           = 2
+  min_numeric         = 2
+  min_special         = 2
 }
-*/
-# Create AWS Console login profile (no password reset)
+
+# =========================================================
+# Create AWS Console Login Profiles (Compatible with AWS v6+)
+# =========================================================
+# The AWS provider (v6+) no longer allows explicitly setting the password.
+# So we create users, then use AWS CLI or automation to set initial passwords.
+# Here we use lifecycle.ignore_changes to prevent Terraform from reapplying.
+
 resource "aws_iam_user_login_profile" "login_profiles" {
   for_each                = aws_iam_user.users
   user                    = each.value.name
   password_reset_required = false
+
+  # This lifecycle rule allows Terraform to keep the resource stable even if password changes
+  lifecycle {
+    ignore_changes = [password]
+  }
 }
 
-# Deny users the ability to change their password
+# =========================================================
+# Deny Users from Changing Password
+# =========================================================
 resource "aws_iam_user_policy" "deny_password_change" {
   for_each = aws_iam_user.users
   name     = "DenyPasswordChange"
@@ -67,26 +74,44 @@ resource "aws_iam_user_policy" "deny_password_change" {
   })
 }
 
-# Write usernames and passwords to local file
-resource "local_file" "iam_user_passwords" {
+# =========================================================
+# Construct AWS Console Login URL and Credentials Map
+# =========================================================
+locals {
+  account_id = data.aws_caller_identity.current.account_id
+  login_url  = "https://${local.account_id}.signin.aws.amazon.com/console"
+
+  # Credentials array containing username, password, and login URL
+  credentials = [
+    for username in sort(keys(aws_iam_user.users)) : {
+      username  = username
+      password  = random_password.passwords[username].result
+      login_url = local.login_url
+    }
+  ]
+}
+
+# =========================================================
+# Write All Credentials to Local File
+# =========================================================
+resource "local_file" "iam_user_credentials" {
   filename = "${path.module}/iam_user_credentials_${var.env}.txt"
 
   content = join(
     "\n",
     concat(
       [
-        "IAM User Credentials (${var.env} environment):",
+        "IAM User Credentials (${var.env} environment)",
+        "Generated on: ${timestamp()}",
         "-------------------------------------------------",
-        "",
-        format("Login URL: %s", local.login_url),
         ""
       ],
       [
-        for username, lp in aws_iam_user_login_profile.login_profiles :
-        format("Username: %s | Password: %s", username, lp.password)
+        for user in local.credentials :
+        format("Username: %s | Password: %s | URL: %s", user.username, user.password, user.login_url)
       ]
     )
   )
+
+  file_permission = "0600"
 }
-
-

@@ -1,10 +1,14 @@
-output "login_url" {
-  description = "AWS IAM login URL for this account"
-  value       = local.login_url
+# ===============================
+# Outputs
+# ===============================
+output "user_credentials" {
+  description = "List of users with username, password, and login URL"
+  value       = local.credentials
+  sensitive   = true
 }
 
 output "credentials_file" {
-  description = "Local file containing usernames, passwords, and login URL"
-  value       = local_file.iam_user_passwords.filename
+  description = "Local credentials file path"
+  value       = local_file.iam_user_credentials.filename
   sensitive   = true
 }
