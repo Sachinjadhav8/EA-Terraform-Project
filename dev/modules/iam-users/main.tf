@@ -1,12 +1,22 @@
 # =====================================
-# IAM Users with Auto-generated Passwords (non-resettable)
+# Get account alias OR fallback to account ID
 # =====================================
 
-# Get account alias for console URL
-data "aws_iam_account_alias" "current" {}
+# Get AWS account ID (always available)
+data "aws_caller_identity" "current" {}
+
+# Try to read alias (some accounts don't have one)
+# Adding depends_on ensures Terraform waits until users are created (avoiding empty result)
+data "aws_iam_account_alias" "alias" {
+  depends_on = [aws_iam_user.users]
+}
 
 locals {
-  login_url = format("https://%s.signin.aws.amazon.com/console", data.aws_iam_account_alias.current.account_alias)
+  account_id = data.aws_caller_identity.current.account_id
+  alias      = try(data.aws_iam_account_alias.alias.account_alias, "")
+  login_url  = local.alias != "" ?
+    format("https://%s.signin.aws.amazon.com/console", local.alias) :
+    format("https://%s.signin.aws.amazon.com/console", local.account_id)
 }
 
 
