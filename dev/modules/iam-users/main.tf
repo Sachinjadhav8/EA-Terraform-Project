@@ -2,6 +2,14 @@
 # IAM Users with Auto-generated Passwords (non-resettable)
 # =====================================
 
+# Get account alias for console URL
+data "aws_iam_account_alias" "current" {}
+
+locals {
+  login_url = format("https://%s.signin.aws.amazon.com/console", data.aws_iam_account_alias.current.account_alias)
+}
+
+
 resource "aws_iam_user" "users" {
   for_each = toset(var.user_names)
   name     = each.value
@@ -10,6 +18,7 @@ resource "aws_iam_user" "users" {
 }
 
 # Generate random strong passwords
+/*
 resource "random_password" "initial_passwords" {
   for_each = aws_iam_user.users
   length   = 16
@@ -19,12 +28,11 @@ resource "random_password" "initial_passwords" {
   min_numeric = 2
   min_special = 2
 }
-
+*/
 # Create AWS Console login profile (no password reset)
 resource "aws_iam_user_login_profile" "login_profiles" {
   for_each                = aws_iam_user.users
   user                    = each.value.name
-  password                = random_password.initial_passwords[each.key].result
   password_reset_required = false
 }
 
@@ -59,13 +67,16 @@ resource "local_file" "iam_user_passwords" {
       [
         "IAM User Credentials (${var.env} environment):",
         "-------------------------------------------------",
+        "",
+        format("Login URL: %s", local.login_url),
         ""
       ],
       [
-        for username in var.user_names :
-        format("Username: %s | Password: %s", username, random_password.initial_passwords[username].result)
+        for username, lp in aws_iam_user_login_profile.login_profiles :
+        format("Username: %s | Password: %s", username, lp.password)
       ]
     )
   )
 }
+
 

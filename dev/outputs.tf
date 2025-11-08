@@ -1,6 +1,6 @@
 output "iam_users" {
   description = "List of IAM users created"
-  value       = module.iam_users.user_names
+  value       = module.iam_users.login_url
 }
 
 output "iam_user_passwords_file" {
