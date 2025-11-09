@@ -62,3 +62,8 @@ group_policies = {
     "arn:aws:iam::aws:policy/AmazonAthenaFullAccess"
   ]
 }
+
+vpc_name   = "default-virginia-vpc"
+subnet_name = "default-virginia-subnet"
+sg_name     = "default-virginia-sg"
+bucket_name = "karan-demo-private-bucket2"

@@ -39,3 +39,23 @@ variable "group_names" {
 variable "group_policies" {
   type = map(list(string))
 }
+
+variable "vpc_name" {
+  type        = string
+  description = "Name of existing VPC"
+}
+
+variable "subnet_name" {
+  type        = string
+  description = "Name of existing subnet"
+}
+
+variable "sg_name" {
+  type        = string
+  description = "Name of existing security group"
+}
+
+variable "bucket_name" {
+  type        = string
+  description = "S3 bucket name"
+}
