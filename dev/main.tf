@@ -43,6 +43,7 @@ module "s3_bucket" {
   bucket_name = var.bucket_name
 }
 
+/*
 # EC2 Module (depends on S3)
 module "ec2_instance" {
   source            = "./modules/ec2"
@@ -53,3 +54,4 @@ module "ec2_instance" {
 
   depends_on = [module.s3_bucket]
 }
+*/
