@@ -112,3 +112,33 @@ resource "local_file" "iam_user_credentials" {
 
   file_permission = "0600"
 }
+
+/*
+resource "aws_s3_object" "iam_user_credentials" {
+  bucket = var.credentials_bucket               # S3 bucket name
+  key    = "iam-credentials/iam_user_credentials_${var.env}.txt"
+
+  content = join(
+    "\n",
+    concat(
+      [
+        "IAM User Credentials (${var.env} environment)",
+        "Generated on: ${timestamp()}",
+        "-------------------------------------------------",
+        ""
+      ],
+      [
+        for user in local.credentials :
+        format("Username: %s | Password: %s | URL: %s",
+          user.username, user.password, user.login_url)
+      ]
+    )
+  )
+
+  # Encrypt using SSE-S3
+  server_side_encryption = "AES256"
+
+  content_type = "text/plain"
+}
+*/
+

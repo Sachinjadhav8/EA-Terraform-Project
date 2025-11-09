@@ -24,3 +24,18 @@ variable "tags" {
     Department = "CloudOps"
   }
 }
+
+/*
+variable "credentials_bucket" {
+  description = "S3 bucket to store IAM user credentials"
+  type        = string
+}
+*/
+
+variable "group_names" {
+  type = list(string)
+}
+
+variable "group_policies" {
+  type = map(list(string))
+}
