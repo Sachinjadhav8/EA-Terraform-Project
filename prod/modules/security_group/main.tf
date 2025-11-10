@@ -1,5 +1,4 @@
 resource "aws_security_group" "this" {
-  name        = "${var.vpc_name}-sg"
   description = var.description
   vpc_id      = var.vpc_id
 

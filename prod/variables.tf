@@ -60,3 +60,16 @@ variable "instance_count" {
   type = number
   description = "Number of EC2 instances to create"
 }
+
+#####################################
+
+
+variable "user_names" {
+  description = "List of IAM user names to create"
+  type        = list(string)
+}
+
+variable "tags" {
+  description = "Tags for IAM users"
+  type        = map(string)
+}
