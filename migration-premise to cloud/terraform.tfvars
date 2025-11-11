@@ -1,11 +1,16 @@
 region = "ap-south-1"
 
-vpc_id = "vpc-12345678"
-private_subnet_ids = ["subnet-aaa", "subnet-bbb"]
+vpc_name = "eneryA"
 
-directory_name = "corp.example.com"
-directory_admin_password = "Password@123"
+public_subnet_name_filter = "eneryA"   # Since "eneryA*" matches both.
 
+# private_subnet_ids = ["subnet-aaa", "subnet-bbb"]
+
+directory_dns_name = "corp.example.com"
+
+directory_admin_password = "pass@123"
+
+/*
 fsx_security_group_id = "sg-xxxxx"
 fsx_size = 64
 fsx_throughput = 128
@@ -28,3 +33,5 @@ fsx_domain  = "corp.example.com"
 
 task_name = "smb-to-fsx"
 run_now = true
+
+*/

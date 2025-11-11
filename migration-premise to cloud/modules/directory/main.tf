@@ -1,5 +1,5 @@
 resource "aws_directory_service_directory" "this" {
-  name     = var.directory_name
+  name     = var.directory_dns_name
   password = var.admin_password
   type     = "MicrosoftAD"
   edition  = "Standard"

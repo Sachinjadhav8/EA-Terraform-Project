@@ -5,16 +5,30 @@ data "aws_vpc" "selected" {
   }
 }
 
+data "aws_subnets" "public" {
+  filter {
+    name   = "tag:Name"
+    values = ["${var.public_subnet_name_filter}*"]   # wildcard match
+  }
+
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.selected.id]
+  }
+}
 
 
 # 1. Directory Service
 module "directory" {
   source             = "./modules/directory"
-  vpc_id             = var.vpc_id
-  private_subnet_ids = var.private_subnet_ids
-  directory_name     = var.directory_name
+  vpc_id             = data.aws_vpc.selected.id
+  private_subnet_ids = data.aws_subnets.public.ids
+  directory_name     = var.directory_dns_name
   admin_password     = var.directory_admin_password
 }
+
+
+/*
 
 # 2. FSx Windows
 module "fsx" {
@@ -63,3 +77,6 @@ module "datasync_task" {
   destination_location_arn = module.datasync_locations.dest_loc_arn
   run_now                  = var.run_now
 }
+
+
+*/

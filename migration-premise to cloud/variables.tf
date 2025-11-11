@@ -1,11 +1,25 @@
 variable "region" {}
-variable "vpc_id" {}
-variable "private_subnet_ids" { type = list(string) }
+variable "vpc_name" {
+  description = "Name tag of the existing VPC"
+}
+
+variable "public_subnet_name_filter" {
+  description = "Name tag filter for public subnets"
+  type        = string
+}
+
+# variable "private_subnet_ids" { type = list(string) }
 
 # Directory
-variable "directory_name" {}
+variable "directory_dns_name" {
+  description = "FQDN of the AWS Managed Microsoft AD domain"
+  type        = string
+}
+
 variable "directory_admin_password" { sensitive = true }
 
+
+/*
 # FSx
 variable "fsx_security_group_id" {}
 variable "fsx_size" {}
@@ -31,3 +45,5 @@ variable "fsx_domain" {}
 # Task
 variable "task_name" {}
 variable "run_now" { default = true }
+
+*/
