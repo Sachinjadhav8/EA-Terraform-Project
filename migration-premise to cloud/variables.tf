@@ -15,12 +15,14 @@ variable "directory_dns_name" {
 variable "directory_admin_password" { sensitive = true }
 
 
-/*
+
 # FSx
 variable "fsx_security_group_id" {}
 variable "fsx_size" {}
 variable "fsx_throughput" {}
 
+
+/*
 # DataSync Agent
 variable "agent_name" {}
 variable "activation_key" {}

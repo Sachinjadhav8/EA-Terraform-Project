@@ -29,7 +29,7 @@ module "directory" {
 }
 
 
-/*
+
 
 # 2. FSx Windows
 module "fsx" {
@@ -41,6 +41,8 @@ module "fsx" {
   throughput_mbps     = var.fsx_throughput
   ad_id               = module.directory.directory_id
 }
+
+/*
 
 # 3. DataSync Agent
 module "datasync_agent" {

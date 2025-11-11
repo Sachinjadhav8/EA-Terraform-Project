@@ -9,17 +9,16 @@ private_subnet_ids = [
 
 # public_subnet_name_filter = "eneryA*"   # Since "eneryA*" matches both.
 
-# private_subnet_ids = ["subnet-aaa", "subnet-bbb"]
-
 directory_dns_name = "corp.example.com"
 
 directory_admin_password = "pass@123"
 
-/*
-fsx_security_group_id = "sg-xxxxx"
-fsx_size = 64
-fsx_throughput = 128
 
+fsx_security_group_id = "sg-04050cf587048f7d0"
+fsx_size = 32
+fsx_throughput = 32
+
+/*
 agent_name = "datasync-agent-1"
 activation_key = "88TAN-BGHAQG-XXXX"   # From your agent screen
 
