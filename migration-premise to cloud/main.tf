@@ -43,7 +43,7 @@ module "fsx" {
 
 }
 
-
+/*
 # 3. DataSync Agent
 module "datasync_agent" {
   source         = "./modules/datasync-agent"
@@ -83,4 +83,5 @@ module "datasync_task" {
   source_location_arn      = module.datasync_locations.source_loc_arn
   destination_location_arn = module.datasync_locations.dest_loc_arn
 }
+*/
 
