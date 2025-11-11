@@ -2,7 +2,12 @@ region = "ap-south-1"
 
 vpc_name = "eneryA"
 
-public_subnet_name_filter = "eneryA"   # Since "eneryA*" matches both.
+private_subnet_ids = [
+  "subnet-06416bc1a2a357e2c",
+  "subnet-0b99a713fe4f0c735"
+]
+
+# public_subnet_name_filter = "eneryA*"   # Since "eneryA*" matches both.
 
 # private_subnet_ids = ["subnet-aaa", "subnet-bbb"]
 
