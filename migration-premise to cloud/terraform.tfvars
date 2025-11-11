@@ -16,7 +16,7 @@ fsx_size = 32
 fsx_throughput = 32
 
 agent_name = "datasync-agent-1"
-activation_key = "5R8LF-E1QNP-SGU0A-44VHG-4B0MD"   # From your agent screen
+activation_key = "5R8LF-E1QNP-SGUOA-44VHG-4BOMD"   # From your agent screen
 
 
 
