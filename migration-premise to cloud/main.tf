@@ -23,7 +23,7 @@ module "directory" {
   source             = "./modules/directory"
   vpc_id             = data.aws_vpc.selected.id
   private_subnet_ids = data.aws_subnets.public.ids
-  directory_name     = var.directory_dns_name
+  directory_dns_name     = var.directory_dns_name
   admin_password     = var.directory_admin_password
 }
 
