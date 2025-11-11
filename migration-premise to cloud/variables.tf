@@ -3,7 +3,6 @@ variable "vpc_name" {
   description = "Name tag of the existing VPC"
 }
 
-
 variable "private_subnet_ids" { type = list(string) }
 
 # Directory
@@ -15,17 +14,17 @@ variable "directory_dns_name" {
 variable "directory_admin_password" { sensitive = true }
 
 
-
 # FSx
 variable "fsx_security_group_id" {}
 variable "fsx_size" {}
 variable "fsx_throughput" {}
 
 
-/*
+
 # DataSync Agent
 variable "agent_name" {}
 variable "activation_key" {}
+
 
 # SMB Source
 variable "smb_server" {}
@@ -44,4 +43,3 @@ variable "fsx_domain" {}
 variable "task_name" {}
 variable "run_now" { default = true }
 
-*/

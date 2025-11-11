@@ -28,9 +28,6 @@ module "directory" {
   admin_password     = var.directory_admin_password
 }
 
-
-
-
 # 2. FSx Windows
 module "fsx" {
   source              = "./modules/fsx"
@@ -40,22 +37,29 @@ module "fsx" {
   storage_capacity_gib= var.fsx_size
   throughput_mbps     = var.fsx_throughput
   ad_id               = module.directory.directory_id
+
+  # Ensure fully sequenced creation
+  depends_on = [module.directory]
+
 }
 
-/*
 
 # 3. DataSync Agent
 module "datasync_agent" {
   source         = "./modules/datasync-agent"
   agent_name     = var.agent_name
   activation_key = var.activation_key
+
+  depends_on = [module.fsx]   # <<< added
 }
+
+
 
 # 4. DataSync Locations
 module "datasync_locations" {
   source = "./modules/datasync-locations"
 
-  agent_arn     = module.datasync_agent.agent_arn
+  agent_arn     = module.datasync_agent.agent_arn  # implicit dependency
 
   # SMB source
   smb_server    = var.smb_server
@@ -81,5 +85,3 @@ module "datasync_task" {
   run_now                  = var.run_now
 }
 
-
-*/

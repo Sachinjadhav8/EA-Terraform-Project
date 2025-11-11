@@ -7,5 +7,6 @@ resource "aws_fsx_windows_file_system" "this" {
   security_group_ids  = [var.security_group_id]
   active_directory_id = var.ad_id
   deployment_type     = "MULTI_AZ_1"
+  automatic_backup_retention_days = 0
   # deployment_type     = "SINGLE_AZ_1" #for single there will be different code
 }
