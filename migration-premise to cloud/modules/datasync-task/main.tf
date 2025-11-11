@@ -7,8 +7,3 @@ resource "aws_datasync_task" "this" {
     verify_mode = "POINT_IN_TIME_CONSISTENT"
   }
 }
-
-resource "aws_datasync_task_execution" "run" {
-  count    = var.run_now ? 1 : 0
-  task_arn = aws_datasync_task.this.arn
-}

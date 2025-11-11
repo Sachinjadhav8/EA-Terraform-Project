@@ -41,5 +41,5 @@ variable "fsx_domain" {}
 
 # Task
 variable "task_name" {}
-variable "run_now" { default = true }
+
 

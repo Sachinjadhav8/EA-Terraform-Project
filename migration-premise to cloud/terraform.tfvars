@@ -34,6 +34,5 @@ fsx_password = "pass@123"
 fsx_domain  = "corp.example.com"
 
 task_name = "smb-to-fsx"
-run_now = true
 
 

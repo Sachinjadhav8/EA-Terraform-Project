@@ -82,6 +82,5 @@ module "datasync_task" {
   task_name                = var.task_name
   source_location_arn      = module.datasync_locations.source_loc_arn
   destination_location_arn = module.datasync_locations.dest_loc_arn
-  run_now                  = var.run_now
 }
 
