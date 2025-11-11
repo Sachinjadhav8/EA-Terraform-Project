@@ -16,7 +16,7 @@ fsx_size = 32
 fsx_throughput = 32
 
 agent_name = "datasync-agent-1"
-activation_key = "EVB8N-5BCTC-PTL5P-C7BPJ-DLUHO"   # From your agent screen
+activation_key = "5R8LF-E1QNP-SGU0A-44VHG-4B0MD"   # From your agent screen
 
 
 
@@ -29,7 +29,7 @@ smb_password = "Test@123"
 # FSx destination
 fsx_location_sg_arn = "arn:aws:ec2:ap-south-1:863518449660:security-group/sg-04050cf587048f7d0"
 fsx_subdir  = "/share"
-fsx_user    = "sachin"                 # username ONLY
+fsx_user    = "admin"                 # username ONLY
 fsx_password = "pass@123"
 fsx_domain  = "corp.example.com"
 
